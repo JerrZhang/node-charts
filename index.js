@@ -9,6 +9,11 @@ module.exports = class NodeCharts extends EventEmitter {
 
         super();
         this.config = this.initConfig();
+        this.tplPath = path.resolve(__dirname, './index.html');
+
+        this.on('changeTpl',(tplPath)=>{
+            this.tplPath = tplPath;
+        })
 
     }
 
@@ -68,8 +73,8 @@ module.exports = class NodeCharts extends EventEmitter {
         }
         const browser = await puppeteer.launch({
             args: ['--no-sandbox'],
-            ignoreHTTPSErrors: true,
-            headless:false
+            ignoreHTTPSErrors: true
+            // headless:false
         });
         const page = await browser.newPage();
         try {
@@ -79,7 +84,7 @@ module.exports = class NodeCharts extends EventEmitter {
             });
 
             //读取内容
-            let content = fs.readFileSync(path.resolve(__dirname, './index.html'));
+            let content = fs.readFileSync(this.tplPath);
 
             //读取模板
             await page.setContent(content.toString());
@@ -112,11 +117,12 @@ module.exports = class NodeCharts extends EventEmitter {
                 type: 'png'
             });
 
-
+            this.emit('data',buffer);
             callback(null, buffer);
 
         } catch (error) {
             callback(error, null);
+            this.emit('error',error);
         } finally {
             await page.close();
             await browser.close();

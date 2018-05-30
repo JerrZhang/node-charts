@@ -1,5 +1,7 @@
 NodeChart 是一个基于puppeteer的Node生成chart 图片的库，简单易用，扩展方便，内置了echarts 和 highcharts两种类型的图表库，使用者可根据自身需求灵活添加，配置非常方便。
 
+理论上可以支持所有图表库。
+
 ## 安装使用
 
 ```bash
@@ -10,9 +12,10 @@ npm install --save node-charts
 
 ### 使用内置的图表
 
-1. echarts 实例
+1.  echarts 实例
 
 ```javascript
+const fs = require('fs');
 const NodeCharts = require('node-charts');
 let nc = new NodeCharts();
 
@@ -39,8 +42,11 @@ nc.render(option,(err,data)=>{
 })
 
 ```
-1. highcharts 实例
+1.  highcharts 实例
 ```javascript
+const fs = require('fs');
+const NodeCharts = require('node-charts');
+let nc = new NodeCharts();
 let options = {
 
     title: {
@@ -155,6 +161,6 @@ type:图表类型（唯一标识）比如echarts 、highcharts，推荐使用图
 
 ## Q&A
 
-欢迎 issue
+欢迎 [issue](https://github.com/JerrZhang/node-charts/issues) && star
 
 
