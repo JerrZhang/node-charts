@@ -37,6 +37,14 @@ let option = {
         data: [5, 20, 36, 10, 10, 20]
     }]
 };
+//监听全局异常事件
+nc.on('error',(err)=>{
+    console.log(err);
+});
+//如果不使用默认的模板
+//修改图表渲染所用的模板，模板中约定必须包含 div#container
+nc.emit('changeTpl',tplPath)
+
 nc.render(option,(err,data)=>{
     fs.writeFileSync('test.png',data);
 })
@@ -104,6 +112,13 @@ let options = {
         }]
     }
 }
+//监听全局异常事件
+nc.on('error',(err)=>{
+    console.log(err);
+});
+//如果不使用默认的模板
+//修改图表渲染所用的模板，模板中约定必须包含 div#container
+nc.emit('changeTpl',tplPath)
 
 nc.render(options, (err, data) => {
     console.log(err);
