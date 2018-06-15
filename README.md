@@ -117,15 +117,15 @@ nc.on('error',(err)=>{
     console.log(err);
 });
 //如果不使用默认的模板
-//修改图表渲染所用的模板，模板中约定必须包含 div#container
-nc.emit('changeTpl',tplPath)
 
 nc.render(options, (err, data) => {
     console.log(err);
     fs.writeFileSync('test.h.png', data);
 }, {
     chartType: 'highcharts',
-    waitfor: 1000
+    waitfor: 1000,
+    //修改图表渲染所用的模板，模板中约定必须包含 div#container
+    renderTo:`<div id="container" style="width: 600px;height:400px;"></div>`
 });
 ```
 

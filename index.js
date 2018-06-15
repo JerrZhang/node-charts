@@ -9,11 +9,7 @@ module.exports = class NodeCharts extends EventEmitter {
 
         super();
         this.config = this.initConfig();
-        this.tplPath = path.resolve(__dirname, './index.html');
 
-        this.on('changeTpl',(tplPath)=>{
-            this.tplPath = tplPath;
-        })
 
     }
 
@@ -84,13 +80,27 @@ module.exports = class NodeCharts extends EventEmitter {
             });
 
             //读取内容
-            let content = fs.readFileSync(this.tplPath);
+            let containerElement = '<div id="container" style="width: 600px;height:400px;"></div>';
+            if(opts.renderTo){
+                containerElement = opts.renderTo;
+            }
+            let content = `<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                <title>chart</title>
+            </head>
+            <body>
+                ${containerElement}
+            </body>
+            </html>`
 
             //读取模板
-            await page.setContent(content.toString());
+            await page.setContent(content);
 
 
-            //使用svg 模式渲染，性能会高一些
             await page.evaluate((chartOptions, opts) => {
                 window.chart = {
                     options: chartOptions,
@@ -107,8 +117,8 @@ module.exports = class NodeCharts extends EventEmitter {
                 path: chartConfig.initPath
             });
 
-            if (opts.waitfor) {
-                await page.waitFor(opts.waitfor);
+            if (waitfor) {
+                await page.waitFor(waitfor);
             }
 
 
