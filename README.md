@@ -42,11 +42,13 @@ nc.on('error',(err)=>{
     console.log(err);
 });
 //如果不使用默认的模板
-//修改图表渲染所用的模板，模板中约定必须包含 div#container
-nc.emit('changeTpl',tplPath)
+
 
 nc.render(option,(err,data)=>{
     fs.writeFileSync('test.png',data);
+},{
+    //修改图表渲染所用的模板，模板中约定必须包含 div#container
+    renderTo:`<div id="container" style="width: 600px;height:400px;"></div>`
 })
 
 ```
