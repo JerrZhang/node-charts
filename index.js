@@ -9,8 +9,12 @@ module.exports = class NodeCharts extends EventEmitter {
 
         super();
         this.config = this.initConfig();
+        this.externalCfgPath = ''; //外部配置文件路径
 
+    }
 
+    setExternalConfPath(externalCfgPath) {
+        this.externalCfgPath = externalCfgPath;
     }
 
     initConfig() {
@@ -24,8 +28,8 @@ module.exports = class NodeCharts extends EventEmitter {
     }
 
     tryReadExternalConfig() {
-        //
-        let appRoot = '../../nodechart.config.js';
+        // issue 1 bug fixed
+        let appRoot = this.externalCfgPath || '../../nodechart.config.js';
         try {
             if (fs.existsSync(appRoot)) {
                 let externalConfig = require(appRoot);
@@ -81,7 +85,7 @@ module.exports = class NodeCharts extends EventEmitter {
 
             //读取内容
             let containerElement = '<div id="container" style="width: 600px;height:400px;"></div>';
-            if(opts.renderTo){
+            if (opts.renderTo) {
                 containerElement = opts.renderTo;
             }
             let content = `<!DOCTYPE html>
@@ -127,12 +131,12 @@ module.exports = class NodeCharts extends EventEmitter {
                 type: 'png'
             });
 
-            this.emit('data',buffer);
+            this.emit('data', buffer);
             callback(null, buffer);
 
         } catch (error) {
             callback(error, null);
-            this.emit('error',error);
+            this.emit('error', error);
         } finally {
             await page.close();
             await browser.close();
@@ -140,4 +144,3 @@ module.exports = class NodeCharts extends EventEmitter {
 
     }
 }
-
