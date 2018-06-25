@@ -29,7 +29,7 @@ module.exports = class NodeCharts extends EventEmitter {
 
     tryReadExternalConfig() {
         // issue 1 bug fixed
-        let appRoot = this.externalCfgPath || '../../nodechart.config.js';
+        let appRoot = this.externalCfgPath || path.resolve(__dirname,'../../nodechart.config.js');
         try {
             if (fs.existsSync(appRoot)) {
                 let externalConfig = require(appRoot);
