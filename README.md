@@ -152,6 +152,8 @@ module.exports = [{
         type: 'highcharts'
     },
 ]
+//默认路径如果读取异常可以显示设置配置文件路径
+nc.setExternalConfPath(configPath)；
 ```
 
 导出内容可以为对象和数组两种类型，主要参数说明：
