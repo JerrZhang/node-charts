@@ -15,6 +15,7 @@ module.exports = class NodeCharts extends EventEmitter {
 
     setExternalConfPath(externalCfgPath) {
         this.externalCfgPath = externalCfgPath;
+        this.config = this.initConfig();
     }
 
     initConfig() {
